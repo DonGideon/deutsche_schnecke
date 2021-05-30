@@ -1,45 +1,45 @@
 require './telegram_response_creator'
 
 class AkkusativOrDativ
-  @@prints = {
-    :prapositionen => {
-      :akkusativ => "
-          **AKK**\n
-          - bis (till)\n
-          - gegen (against, towards)\n
-          - um (location: around / time: at)\n
-          - durch (through)\n
-          - ohne (without)\n
-          - entlang (along)
-      ",
-      :dativ => "
-          **DAT**\n
-          - aus (from originally)\n
-          - von (from, of)\n
-          - zu (to)\n
-          - nach (to - streets, cities, countries, after)\n
-          - vor (before, ago)\n
-          - mit (with)\n
-          - seit (since)\n
-          - bei (at - name of people/companies, during/while)\n
-          - Gegenüber* (in front of (will come after the noun))\n
-      ",
-    },
-    :fragen => {
-        :akkusativ => "
-            **AKK**\n
-            - Wohin? Where to (with action)
-            - Was? what
-            - Wen? who
-        ",
-        :dativ => "
-            **DAT**\n
-            - Wo? where
-            - Wann? when
-            - Wem? whom
-        ",
+    @@prints = {
+        :prapositionen => {
+            :akkusativ => "
+                **AKK**
+                - bis (till)
+                - gegen (against, towards)
+                - um (location: around / time: at)
+                - durch (through)
+                - ohne (without)
+                - entlang (along)
+            ",
+            :dativ => "
+                **DAT**
+                - aus (from originally)
+                - von (from, of)
+                - zu (to)
+                - nach (to - streets, cities, countries, after)
+                - vor (before, ago)
+                - mit (with)
+                - seit (since)
+                - bei (at - name of people/companies, during/while)
+                - Gegenüber* (in front of (will come after the noun))
+            ",
+        },
+        :fragen => {
+            :akkusativ => "
+                **AKK**
+                - Wohin? Where to (with action)
+                - Was? what
+                - Wen? who
+            ",
+            :dativ => "
+                **DAT**
+                - Wo? where
+                - Wann? when
+                - Wem? whom
+            ",
+        }
     }
-  }
 
     def self.MessageLogic(message, bot)
         telegramResponseCreator = TelegramResponseCreator.new(message, bot)

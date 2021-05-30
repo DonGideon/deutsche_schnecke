@@ -2,6 +2,7 @@ require 'telegram/bot'
 require "./akkusativ_or_dativ"
 require "./personalpronomen"
 require "./possessivartikel"
+require "./adjektivdeklination"
 
 token = '1894784635:AAGKmpYsvBSK9Pv0K7YjREDaVF-coVS922w'
 
@@ -21,14 +22,19 @@ Telegram::Bot::Client.run(token) do |bot|
                     when message.data.include?("possessivartikel")
                         Possessivartikel.MessageLogic(message, bot)
                 end
+                case 
+                    when message.data.include?("adjektivdeklination")
+                        Adjektivdeklination.MessageLogic(message, bot)
+                end
             when message.class == Telegram::Bot::Types::Message && message.text.downcase.delete(' ') == 'hilfe'
                 kb = [
                     Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Noun is Akkusativ or Dativ?', callback_data: 'akkusativ_or_dativ'),
-                    Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Personalpronomen', callback_data: 'personalpronomen'),
-                    Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Possessivartikel', callback_data: 'possessivartikel')
+                    Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Personalpronomen (mir / mich...)', callback_data: 'personalpronomen'),
+                    Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Possessivartikel (mein...)', callback_data: 'possessivartikel'),
+                    Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Adjektivdeklination', callback_data: 'adjektivdeklination')
                 ]
                 markup = Telegram::Bot::Types::InlineKeyboardMarkup.new(inline_keyboard: kb)
-                bot.api.send_message(chat_id: message.chat.id, text: 'What do you want to know?', reply_markup: markup)
+                bot.api.send_message(chat_id: message.chat.id, text: '🐌 wähle!', reply_markup: markup)
         end
     end
 end

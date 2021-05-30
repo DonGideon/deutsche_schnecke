@@ -17,4 +17,10 @@ class TelegramResponseCreator
     def textResponse(text)
         @bot.api.send_message(chat_id: @message.from.id, text: text)
     end
+
+    def linkResponse(webside, searchWord, linkText)
+        link = [Telegram::Bot::Types::InlineKeyboardButton.new(text: "#{linkText} #{searchWord.capitalize}", url: webside.sub('SEARCHWORD', searchWord))]
+        markup = Telegram::Bot::Types::InlineKeyboardMarkup.new(inline_keyboard: link)
+        @bot.api.send_message(chat_id: @message.from.id, text: "🐌", reply_markup: markup)
+    end
 end

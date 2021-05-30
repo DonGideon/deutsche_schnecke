@@ -12,16 +12,16 @@ Telegram::Bot::Client.run(token) do |bot|
         case
             when message.class == Telegram::Bot::Types::CallbackQuery
                 case 
-                    when message.data == "akkusativ_or_dativ"
+                    when message.data.include?("akkusativ_or_dativ")
                         AkkusativOrDativ.MessageLogic(telegramResponseCreator, message.data)
                
-                    when message.data == "personalpronomen"
+                    when message.data.include?("personalpronomen")
                         Personalpronomen.MessageLogic(telegramResponseCreator, message.data)
                
-                    when message.data == "possessivartikel"
+                    when message.data.include?("possessivartikel")
                         Possessivartikel.MessageLogic(telegramResponseCreator, message.data)
              
-                    when message.data == "adjektivdeklination"
+                    when message.data.include?("adjektivdeklination")
                         Adjektivdeklination.MessageLogic(telegramResponseCreator, message.data)
               
                     when message.data == "how_to_conjugate"
@@ -33,7 +33,7 @@ Telegram::Bot::Client.run(token) do |bot|
             when message.class == Telegram::Bot::Types::Message
                 theWord = message.text.downcase.delete(' ').delete('/')
                 case
-                    when theWord == 'hilfe' || theWord == 'help' || theWord == 'start'
+                    when theWord == 'h' || theWord == 'hilfe' || theWord == 'help' || theWord == 'start'
                         kb = [
                             Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Noun is Akkusativ or Dativ?', callback_data: 'akkusativ_or_dativ'),
                             Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Personalpronomen (mir / mich...)', callback_data: 'personalpronomen'),
@@ -43,13 +43,15 @@ Telegram::Bot::Client.run(token) do |bot|
                             Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Translate and Gender of...', callback_data: 'translate_and_gender')
                         ]
                         markup = Telegram::Bot::Types::InlineKeyboardMarkup.new(inline_keyboard: kb)
-                        bot.api.send_message(chat_id: message.chat.id, text: '🐌 wähle!', reply_markup: markup)
+                        bot.api.send_message(chat_id: message.chat.id, text: '🐌 WÄHLE!', reply_markup: markup)
                     when theWord.include?('c:')
                         conjugateVerb = message.text.split().last
                         telegramResponseCreator.linkResponse("https://conjugator.reverso.net/conjugation-german-verb-SEARCHWORD.html", conjugateVerb, "Conjugate")
                     when theWord.include?('t:')
                         translateWord = message.text.split().last
                         telegramResponseCreator.linkResponse("https://www.dict.cc/?s=SEARCHWORD", translateWord, "Translate")
+                    when theWord == ('🐌')
+                        telegramResponseCreator.textResponse('❤️')
                 end
         end
     end

@@ -14,9 +14,8 @@ class Possessivartikel
     your (formal) - Ihr+ 
   "
 
-    def self.MessageLogic(message, bot)
-        telegramResponseCreator = TelegramResponseCreator.new(message, bot)
-        if message.data == 'possessivartikel'
+    def self.MessageLogic(telegramResponseCreator, messageData)
+        if messageData == 'possessivartikel'
             telegramResponseCreator.textResponse(@@prints)
         end
     end

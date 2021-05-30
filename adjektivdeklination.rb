@@ -50,10 +50,9 @@ class Adjektivdeklination
         }
     }
 
-    def self.MessageLogic(message, bot)
-        telegramResponseCreator = TelegramResponseCreator.new(message, bot)
+    def self.MessageLogic(telegramResponseCreator, messageData)
         case
-            when message.data == 'adjektivdeklination'
+            when messageData == 'adjektivdeklination'
                 telegramResponseCreator.inlineKeyboardButtons(
                 [
                     {:text => 'Bestimmte Adjektive (die...)', :callback_data => 'adjektivdeklination_bestimmte_adjektive'},
@@ -61,7 +60,7 @@ class Adjektivdeklination
                 ],
                 'Bestimmte Adjektive or Unbestimmte Adjektive?'
                 )
-            when message.data == 'adjektivdeklination_bestimmte_adjektive'
+            when messageData == 'adjektivdeklination_bestimmte_adjektive'
                 telegramResponseCreator.inlineKeyboardButtons(
                 [
                     {:text => 'Nominativ', :callback_data => 'adjektivdeklination_bestimmte_adjektive_nominativ'},
@@ -70,13 +69,13 @@ class Adjektivdeklination
                 ],
                 'Akkusativ or Dativ?'
                 )
-            when message.data == 'adjektivdeklination_bestimmte_adjektive_nominativ'
+            when messageData == 'adjektivdeklination_bestimmte_adjektive_nominativ'
                 telegramResponseCreator.textResponse(@@prints[:bestimmte_adjektive][:nominativ])
-            when message.data == 'adjektivdeklination_bestimmte_adjektive_akkusativ'
+            when messageData == 'adjektivdeklination_bestimmte_adjektive_akkusativ'
                 telegramResponseCreator.textResponse(@@prints[:bestimmte_adjektive][:akkusativ])
-            when message.data == 'adjektivdeklination_bestimmte_adjektive_dativ'
+            when messageData == 'adjektivdeklination_bestimmte_adjektive_dativ'
                 telegramResponseCreator.textResponse(@@prints[:bestimmte_adjektive][:dativ])
-            when message.data == 'adjektivdeklination_unbestimmte_adjektive'
+            when messageData == 'adjektivdeklination_unbestimmte_adjektive'
                 telegramResponseCreator.inlineKeyboardButtons(
                 [
                     {:text => 'Nominativ', :callback_data => 'adjektivdeklination_unbestimmte_adjektive_nominativ'},
@@ -85,11 +84,11 @@ class Adjektivdeklination
                 ],
                 'Akkusativ or Dativ?'
                 )
-            when message.data == 'adjektivdeklination_unbestimmte_adjektive_nominativ'
+            when messageData == 'adjektivdeklination_unbestimmte_adjektive_nominativ'
                 telegramResponseCreator.textResponse(@@prints[:unbestimmte_adjektive][:nominativ])
-            when message.data == 'adjektivdeklination_unbestimmte_adjektive_akkusativ'
+            when messageData == 'adjektivdeklination_unbestimmte_adjektive_akkusativ'
                 telegramResponseCreator.textResponse(@@prints[:unbestimmte_adjektive][:akkusativ])
-            when message.data == 'adjektivdeklination_unbestimmte_adjektive_dativ'
+            when messageData == 'adjektivdeklination_unbestimmte_adjektive_dativ'
                 telegramResponseCreator.textResponse(@@prints[:unbestimmte_adjektive][:dativ])
         end
     end

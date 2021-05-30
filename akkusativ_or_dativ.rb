@@ -41,10 +41,9 @@ class AkkusativOrDativ
         }
     }
 
-    def self.MessageLogic(message, bot)
-        telegramResponseCreator = TelegramResponseCreator.new(message, bot)
+    def self.MessageLogic(telegramResponseCreator, messageData)
         case
-            when message.data == 'akkusativ_or_dativ'
+            when messageData == 'akkusativ_or_dativ'
                 telegramResponseCreator.inlineKeyboardButtons(
                 [
                     {:text => 'Präpositionen', :callback_data => 'akkusativ_or_dativ_prapositionen'},
@@ -52,7 +51,7 @@ class AkkusativOrDativ
                 ],
                 'Präpositionen or Fragen?'
                 )
-            when message.data == 'akkusativ_or_dativ_prapositionen'
+            when messageData == 'akkusativ_or_dativ_prapositionen'
                 telegramResponseCreator.inlineKeyboardButtons(
                 [
                     {:text => 'Akkusativ', :callback_data => 'akkusativ_or_dativ_prapositionen_akkusativ'},
@@ -60,11 +59,11 @@ class AkkusativOrDativ
                 ],
                 'Akkusativ or Dativ?'
                 )
-            when message.data == 'akkusativ_or_dativ_prapositionen_akkusativ'
+            when messageData == 'akkusativ_or_dativ_prapositionen_akkusativ'
                 telegramResponseCreator.textResponse(@@prints[:prapositionen][:akkusativ])
-            when message.data == 'akkusativ_or_dativ_prapositionen_dativ'
+            when messageData == 'akkusativ_or_dativ_prapositionen_dativ'
                 telegramResponseCreator.textResponse(@@prints[:prapositionen][:dativ])
-            when message.data == 'akkusativ_or_dativ_fragen'
+            when messageData == 'akkusativ_or_dativ_fragen'
                 telegramResponseCreator.inlineKeyboardButtons(
                 [
                     {:text => 'Akkusativ', :callback_data => 'akkusativ_or_dativ_fragen_akkusativ'},
@@ -72,9 +71,9 @@ class AkkusativOrDativ
                 ],
                 'Akkusativ or Dativ?'
                 )
-            when message.data == 'akkusativ_or_dativ_fragen_akkusativ'
+            when messageData == 'akkusativ_or_dativ_fragen_akkusativ'
                 telegramResponseCreator.textResponse(@@prints[:fragen][:akkusativ])
-            when message.data == 'akkusativ_or_dativ_fragen_dativ'
+            when messageData == 'akkusativ_or_dativ_fragen_dativ'
                 telegramResponseCreator.textResponse(@@prints[:fragen][:dativ])
         end
     end

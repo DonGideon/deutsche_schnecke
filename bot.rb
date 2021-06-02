@@ -9,9 +9,12 @@ token = ENV["TOKEN"]
 
 Telegram::Bot::Client.run(token) do |bot|
     bot.listen do |message|
+        logLine = "#{message.from.first_name} #{message.from.last_name} #{message.from.username} | message: "
+
         telegramResponseCreator = TelegramResponseCreator.new(message, bot)
         case
             when message.class == Telegram::Bot::Types::CallbackQuery
+                logLine += message.data 
                 case 
                     when message.data.include?("akkusativ_or_dativ")
                         AkkusativOrDativ.MessageLogic(telegramResponseCreator, message.data)
@@ -33,6 +36,7 @@ Telegram::Bot::Client.run(token) do |bot|
                 end
             when message.class == Telegram::Bot::Types::Message
                 theWord = message.text.downcase.delete(' ').delete('/')
+                logLine += theWord
                 case
                     when theWord == 'h' || theWord == 'hilfe' || theWord == 'help' || theWord == 'start'
                         kb = [
@@ -55,5 +59,6 @@ Telegram::Bot::Client.run(token) do |bot|
                         telegramResponseCreator.textResponse('❤️')
                 end
         end
+        File.write("log#{Time.now.month}.txt", "#{Time.now} | #{logLine}\n", mode: "a")
     end
 end

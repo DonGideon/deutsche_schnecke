@@ -3,8 +3,9 @@ require "./akkusativ_or_dativ"
 require "./personalpronomen"
 require "./possessivartikel"
 require "./adjektivdeklination"
+require 'dotenv/load'
 
-token = '1894784635:AAGKmpYsvBSK9Pv0K7YjREDaVF-coVS922w'
+token = ENV["TOKEN"]
 
 Telegram::Bot::Client.run(token) do |bot|
     bot.listen do |message|

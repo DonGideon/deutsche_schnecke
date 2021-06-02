@@ -13,8 +13,8 @@ class Personalpronomen
     sie/Sie - sie/Sie - ihnen/Ihnen
   "
 
-    def self.MessageLogic(telegramResponseCreator)
-        if message.data == 'personalpronomen'
+    def self.MessageLogic(telegramResponseCreator, messageData)
+        if messageData == 'personalpronomen'
             telegramResponseCreator.textResponse(@@prints)
         end
     end
